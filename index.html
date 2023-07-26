@@ -23,42 +23,113 @@
     src="https://unpkg.com/@babel/standalone/babel.min.js"
   ></script>
   <script type="text/babel">
-    /*
-    // reRendering 방식 1: reRender 함수 생성 및 원하는 시점마다 호출__ 추천X
-    // 비추천 이유) 값 변경은 'counter'뿐인데, 리렌더링 할 때마다 Container 전부를 재생성하게 되므로 비효율적이다.
-    const root = document.getElementById("root");
-    let counter = 0;
-    function countUp() {
-      counter++;
-      reRender();
-    }
-    function reRender() {
-      ReactDOM.render(<Container />, root);
-    }
-    const Container = () => (
-      <div>
-        <h3>Total clicks: {counter}</h3>
-        <button onClick={countUp}>Click me!</button>
-      </div>
-    );
-    reRender();
-    */
-
-    // reRendering 방식 2 __ 앞으로 쭉 이 방식으로 사용!!!
-    // 추천 이유) React.js 어플 내에서 데이터를 보관하고, 변수에 저장된 변경된 데이터로 자동 리렌더링해주어 보다 효율적이기 때문이다.
     const root = document.getElementById("root");
 
-    function App() {
-      const [counter, setCounter] = React.useState(0);
-      const onClick = () => {
-        // setCounter(counter + 1);
-        // 아래 'current' 사용하여 함수로 값을 세팅하는 것이 현재 값을 기반으로 값 수정 보장된 방식!
-        setCounter((current) => current + 1);
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState();
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (e) => {
+        setAmount(e.target.value);
+        console.log(e.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
       };
       return (
         <div>
-          <h3>Total clicks: {counter}</h3>
-          <button onClick={onClick}>Click me!</button>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              id="minutes"
+              value={inverted ? amount * 60 : amount}
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={inverted === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              id="hours"
+              value={inverted ? amount : Math.round(amount / 60)}
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={inverted === false}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>
+            {inverted ? "Turn back" : "Invert"}
+          </button>
+        </div>
+      );
+    }
+    function KmToMiles() {
+      const [amount, setAmount] = React.useState();
+      const [invert, setInvert] = React.useState(false);
+
+      const onChange = (e) => {
+        setAmount(e.target.value);
+      };
+
+      const reset = () => {
+        setAmount(0);
+      };
+
+      const onInvert = () => {
+        reset();
+        setInvert((current) => !current);
+      };
+      return (
+        <div>
+          <h3>Km to Miles</h3>
+          <div>
+            <label htmlFor="km">Km</label>
+            <input
+              id="km"
+              value={invert ? Math.round(amount * 0.62137119) : amount}
+              onChange={onChange}
+              disabled={invert === true}
+              type="number"
+            />
+          </div>
+          <div>
+            <label htmlFor="km">Miles</label>
+            <input
+              id="km"
+              value={invert ? amount : Math.round(amount / 1.609344)}
+              onChange={onChange}
+              disabled={invert === false}
+              type="number"
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>{invert ? "Turn back" : "Invert"}</button>
+        </div>
+      );
+    }
+
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (e) => {
+        setIndex(e.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter </h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">Select your units</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units..." : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
         </div>
       );
     }
