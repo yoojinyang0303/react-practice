@@ -1,1 +1,76 @@
-<!-- 깃 레퍼지토리 정상 클론되었는지 확인 -->
+<!-- React JS 카운터 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React JS Counter</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/@babel/standalone/babel.min.js"
+  ></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    // JSX 방식
+    const Title = () => (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+        Hello I'm a Title
+      </h3>
+    );
+    const Button = () => (
+      <button
+        style={{ backgroundColor: "tomato" }}
+        onClick={() => console.log("I'm clicked!!")}
+      >
+        Click me!
+      </button>
+    );
+
+    const Container = () => (
+      <div>
+        <Title />
+        <Button />
+      </div>
+    );
+    ReactDOM.render(<Container />, root);
+
+    /*
+        // createElement 방식  __ 이제 사용하지 않는 방식
+         const h3 = React.createElement(
+           "h3",
+           {
+             onMouseEnter: () => console.log("mouse enter"),
+           },
+           "Hello I'm a h3"
+         );
+         */
+    /*
+        // createElement 방식  __ 이제 사용하지 않는 방식
+         const button = React.createElement(
+           "button",
+           {
+             onClick: () => console.log("I'm clicked!!"),
+           },
+           "Click me!"
+         );
+         */
+    /*
+    // createElement 방식 __ 이제 사용하지 않는 방식
+    const container = React.createElement("div", null, [Title, Button]);
+    ReactDOM.render(container, root);
+    */
+  </script>
+</html>
